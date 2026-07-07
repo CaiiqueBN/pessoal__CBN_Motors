@@ -1,0 +1,39 @@
+<title> Ford | Login</title>
+
+<div class="container-fluid vh-100 p-0">
+  <div class="row g-0 h-100">
+    
+    <div class="col-md-7 d-none d-md-flex align-items-center justify-content-center bg-white p-5">
+      <img 
+        src="http://localhost:3001/img/ranger.png" 
+        alt="Ford Ranger" 
+        class="img-fluid"
+        style="max-height: 85%; object-fit: contain;"
+      >
+    </div>
+
+    <div class="col-md-5 d-flex flex-column align-items-center justify-content-center bg-login-side p-5">
+      
+      <div class="login-card bg-white shadow-lg p-5 w-100" style="max-width: 400px;">
+        
+        <div *ngIf="showWelcomeCard" class="text-center w-100 py-4 welcome-animation">
+          <h1 class="text-success mb-3 check-pop" style="font-size: 4rem;">
+            <i class="bi bi-check-circle-fill"></i>
+          </h1>
+          <h3 class="text-success fw-bold">Seja bem-vindo(a)!</h3>
+          <p class="text-muted mb-4">Autenticação realizada com sucesso.</p>
+          
+          <button class="btn btn-ford w-100 py-2 fs-5" (click)="onConfirmar()">OK</button>
+        </div>
+
+        <div *ngIf="!showWelcomeCard" class="w-100 d-flex flex-column align-items-center">
+          <img src="/img/logo-ford-256.png" alt="Ford Logo" class="mb-4" style="max-width: 120px;">
+          <h4 class="fw-bold mb-4" style="color: #198754;">Boas-vindas!</h4>
+          <app-login-form (loginSuccess)="onLoginSuccess()" class="w-100"></app-login-form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

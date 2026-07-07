@@ -1,0 +1,43 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-100">
+
+  <div class="input-group mb-4">
+    <span class="input-group-text bg-white text-primary border-end-0">
+      <i class="bi bi-person"></i> 
+    </span>
+    <input 
+      formControlName="nome" 
+      type="text" 
+      class="form-control border-start-0" 
+      placeholder="Insira seu e-mail"
+    >
+  </div>
+
+  <div class="input-group mb-4">
+    <span class="input-group-text bg-white text-primary border-end-0">
+      <i class="bi bi-lock"></i> 
+    </span>
+    
+    <input 
+      formControlName="senha" 
+      [type]="hidePassword ? 'password' : 'text'" 
+      class="form-control border-start-0 border-end-0" 
+      placeholder="Insira sua senha"
+    >
+    
+    <span 
+      class="input-group-text bg-white border-start-0 text-muted" 
+      style="cursor: pointer;" 
+      (click)="togglePasswordVisibility()"
+    >
+      <i class="bi" [class.bi-eye-slash]="hidePassword" [class.bi-eye]="!hidePassword"></i>
+    </span>
+  </div>
+
+  <button 
+    type="submit" 
+    class="btn w-100 py-2 text-white fw-bold btn-entrar"
+  >
+    Entrar
+  </button>
+
+</form>

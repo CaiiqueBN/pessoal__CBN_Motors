@@ -1,0 +1,10 @@
+.btn-entrar {
+  background-color: #aeb5b9;
+  border-radius: 8px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-entrar:hover {
+  background-color: #198754; 
+}
