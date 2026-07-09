@@ -1,0 +1,87 @@
+.principal__contato {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    flex: 1;
+}
+
+.principal__contato img {
+    width: 463px;
+    height: auto;
+}
+
+.principal__contato_input {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25rem;
+    font-family: "Miranda Sans", sans-serif;
+    gap: 2px;
+}
+
+.principal__contato_input input[type="email"], input[type="text"], select {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    font-family: "Miranda Sans", sans-serif;
+}
+
+.termos_condicoes {
+    text-align: justify;
+    width: 19rem;
+    font-size: 0.69rem;
+    font-family: "Miranda Sans", sans-serif;
+    color: rgba(102, 102, 102, 0.651);
+    overflow-wrap: break-word;
+}
+
+.termos_checkbox {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.75rem;
+    font-family: "Miranda Sans", sans-serif;
+    user-select: none;
+}
+
+.principal__contato__botao {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #1242ac;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1rem;
+}
+
+.principal__contato__botao:hover {
+    color: white;
+    background-color: #1268b9;
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+
+
+
+
+
+.grid-itens { 
+    margin: 20px 0; 
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+/* Estilo do item quando selecionado */
+button.selected {
+  border-color: #007bff;
+  background-color: #e7f1ff;
+  font-weight: bold;
+}
