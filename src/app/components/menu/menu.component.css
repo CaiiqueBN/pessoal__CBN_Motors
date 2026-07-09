@@ -1,0 +1,12 @@
+.btn-custom-menu {
+  background-color: #ffffff;
+  color: #003478;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.btn-custom-menu:hover {
+  background-color: #003478;
+  color: #ffffff;
+  border-color: #003478;
+}

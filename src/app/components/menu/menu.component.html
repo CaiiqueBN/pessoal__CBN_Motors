@@ -1,0 +1,38 @@
+<button class="btn shadow-sm btn-custom-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+  </svg>
+</button>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    
+    <div class="text-center mb-5">
+      <img src="/img/logo-ford-256.png" alt="Logo da Ford" width="200" class="mb-3">
+      <h4 class="fw-bold" style="color: #003478;">FORD &lt;ENTER&gt;</h4>
+    </div>
+
+    <div class="d-grid gap-2">
+      
+      <button class="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2" data-bs-dismiss="offcanvas" routerLink="/home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
+          <path d="M6.5 14.5v-3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5 .5v3.5a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5Z"/>
+          <path d="M7.141 1.129a1 1 0 0 1 1.717 0L15.42 7.37a1 1 0 0 1-.696 1.63H14v5.5a1 1 0 0 1-1 1h-2v-4H5v4H3a1 1 0 0 1-1-1V9H1.276a1 1 0 0 1-.696-1.63L7.141 1.13Z"/>
+        </svg>
+        Home
+      </button>
+
+      <button class="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2" data-bs-dismiss="offcanvas" (click)="goToDashboard()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-columns-gap" viewBox="0 0 16 16">
+          <path d="M6 1v3H1V1h5zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12v3h-5v-3h5zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8v7H1V8h5zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6v7h-5V1h5zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+        </svg>
+        Dashboard
+      </button>
+
+    </div>
+    
+  </div>
+</div>

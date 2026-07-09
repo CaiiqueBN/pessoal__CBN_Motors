@@ -1,1 +1,25 @@
-<p>home works!</p>
+<title> Ford | Home</title>
+
+<header class="navbar navbar-light bg-white border-bottom px-2 px-md-4 fixed-top d-flex justify-content-between align-items-center" style="height: 75px;">
+  
+  <div class="d-flex align-items-center gap-2 gap-md-3">
+    <app-menu></app-menu>
+  </div>
+
+  <div class="position-absolute start-50 translate-middle-x">
+    <a href="http://localhost:4200/home">
+        <img src="/img/logo-ford-256.png" height="40" alt="Ford Logo" class="img-fluid" style="max-height: 40px;">
+    </a>
+  </div>
+
+  <div class="d-flex align-items-center">
+        <button (click)="logout()" class="btn shadow-sm px-3 px-md-4 btn-custom-logout flex-shrink-0">
+      Logout
+    </button>
+  </div>
+  
+</header>
+
+<main class="container-fluid d-flex justify-content-center" style="margin-top: 100px;">
+  <app-welcome></app-welcome>
+</main>
