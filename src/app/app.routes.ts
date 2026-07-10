@@ -40,6 +40,26 @@ export const routes: Routes = [
       return import('./pages/quadro/quadro.component')
         .then(c => c.QuadroComponent);
     }
+  },
+
+  {
+    path: "orcamento",
+    pathMatch: "full",
+    canActivate: [loginGuard],
+    loadComponent: () => {
+      return import('./pages/orcamento/orcamento.component')
+        .then(c => c.OrcamentoComponent);
+    }
+  },
+
+  {
+    path: "qualidade",
+    pathMatch: "full",
+    canActivate: [loginGuard],
+    loadComponent: () => {
+      return import('./pages/qualidade/qualidade.component')
+        .then(c => c.QualidadeComponent);
+    }
   }
 
 ];

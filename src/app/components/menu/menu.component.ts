@@ -18,4 +18,12 @@ export class MenuComponent {
   goToQuadro() {
     this.router.navigate(['/quadro']);
   }
+
+  goToOrcamento() {
+    this.router.navigate(['/orcamento']);
+  }
+
+  goToQualidade() {
+    this.router.navigate(['/qualidade']);
+  }
 }

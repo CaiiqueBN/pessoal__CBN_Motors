@@ -35,6 +35,8 @@ export class WelcomeComponent {
     { id: 6, nome: 'Oxisanitização (+20min)', tempoMinutos: 20 },
     { id: 7, nome: 'Troca de peça (+45min)', tempoMinutos: 45 },
     { id: 8, nome: 'Lavagem (+30min)', tempoMinutos: 30 },
+    { id: 9, nome: 'Extra (+30min)', tempoMinutos: 30 },
+    { id: 10, nome: 'Extra (+60min)', tempoMinutos: 60 }
   ];
 
   selecionados = signal<number[]>([]);
