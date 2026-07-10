@@ -1,100 +1,71 @@
 <div class="card border-0 shadow-lg" style="border-radius: 12px; overflow: hidden; max-width: 1100px; width: 100%;">
-  <form class="principal__contato_input" onsubmit="event.preventDefault(); Post(this);">
-            <p>INFORMAÇÕES DO CONDUTOR:</p>
-            <input type="text" id="nome" name="nome" required placeholder="NOME">
-            <input type="text" id="sobrenome" name="sobrenome" required placeholder="SOBRENOME">
-            <input type="text" id="cnh" name="cnh" required placeholder="CNH">
-            <input type="email" id="campoEmail" name="email" required placeholder="E-MAIL">
-            <input type="text" id="telefone" name="telefone" required placeholder="TELEFONE">
-
-            <select id="desejoContato" required>
-                <option value="">COMO DESEJA SER CONTATADO</option>
-                <option value="Email">E-MAIL</option>
-                <option value="Telefone">TELEFONE</option>
-                <option value="WhatsApp">WHATSAPP</option>
-            </select>
-
-        </form>
-
-        <form class="principal__contato_input" onsubmit="event.preventDefault(); Post(this);">
-            <p>INFORMAÇÕES DO VEÍCULO:</p>
-
-            <input type="text" id="placa" name="placa" required placeholder="PLACA">
-
-            <select id="modeloVeiculo" name="modeloVeiculo" required>
-                <option value="">MODELO DO VEÍCULO</option>
-                <option value="Elogio">ELOGIO</option>
-                <option value="Reclamacao">RECLAMAÇÃO</option>
-                <option value="Solicitacao">SOLICITAÇÃO</option>
-            </select>
-            <select id="modeloVeiculo" name="modeloVeiculo" required>
-                <option value="">COR</option>
-                <option value="Elogio">ELOGIO</option>
-                <option value="Reclamacao">RECLAMAÇÃO</option>
-                <option value="Solicitacao">SOLICITAÇÃO</option>
-            </select>
-
-            <div class="termos_checkbox">
-                <input type="checkbox" id="revisao" name="revisao">
-                <label for="revisao">Revisão</label>
-            </div>
-            <div class="termos_checkbox">
-                <input type="checkbox" id="diagnostico" name="diagnostico">
-                <label for="diagnostico">Diagnóstico</label>
-            </div>
-            <div class="termos_checkbox">
-                <input type="checkbox" id="recall" name="recall">
-                <label for="recall">Campanha/RECALL</label>
-            </div>
-            <div class="termos_checkbox">
-                <input type="checkbox" id="albl" name="albl">
-                <label for="albl">Alinhamento/Balaceamento</label>
-            </div>
-            <div class="termos_checkbox">
-                <input type="checkbox" id="nitro" name="nitro">
-                <label for="nitro">Calibração dos pneus com nitrogênio</label>
-            </div>
-            <div class="termos_checkbox">
-                <input type="checkbox" id="oxis" name="oxis">
-                <label for="oxis">Oxisanitização</label>
-            </div>
-            <div class="termos_checkbox">
-                <input type="checkbox" id="tpeça" name="tpeça">
-                <label for="tpeça">Troca de peça</label>
-            </div>
-
-<div class="container">
-  <h2>Selecione os serviços:</h2>
   
-  <div class="grid-itens">
-    @for (item of itens; track item.id) {
-      <button 
-        type="button"
-        [class.selected]="selecionados().includes(item.id)"
-        (click)="toggleItem(item.id)">
-        {{ item.nome }}
-      </button>
-    }
+  <div class="principal__contato_input">
+    <p>INFORMAÇÕES DO CONDUTOR:</p>
+    <input type="text" [(ngModel)]="formulario.nome" required placeholder="NOME">
+    <input type="text" [(ngModel)]="formulario.sobrenome" required placeholder="SOBRENOME">
+    <input type="text" [(ngModel)]="formulario.cnh" required placeholder="CNH">
+    <input type="email" [(ngModel)]="formulario.email" required placeholder="E-MAIL">
+    <input type="text" [(ngModel)]="formulario.telefone" required placeholder="TELEFONE">
+
+    <select [(ngModel)]="formulario.contato" required>
+      <option value="">COMO DESEJA SER CONTATADO</option>
+      <option value="Email">E-MAIL</option>
+      <option value="Telefone">TELEFONE</option>
+      <option value="WhatsApp">WHATSAPP</option>
+    </select>
   </div>
-  <div class="resultado">
-    <h3>Tempo total estimado: {{ tempoTotal() }} minutos</h3>
+
+  <div class="principal__contato_input">
+    <p>INFORMAÇÕES DO VEÍCULO:</p>
+
+    <input type="text" [(ngModel)]="formulario.placa" required placeholder="PLACA">
+
+    <select [(ngModel)]="formulario.modelo" required>
+      <option value="">MODELO DO VEÍCULO</option>
+      <option value="Fiesta">FIESTA</option>
+      <option value="Ka">KA</option>
+      <option value="Ranger">RANGER</option>
+    </select>
+
+    <select [(ngModel)]="formulario.cor" required>
+      <option value="">COR</option>
+      <option value="Branco">BRANCO</option>
+      <option value="Preto">PRETO</option>
+      <option value="Prata">PRATA</option>
+    </select>
   </div>
+
+  <div class="container">
+    <h2>Selecione os serviços:</h2>
+    
+    <div class="grid-itens">
+      @for (item of itens; track item.id) {
+        <button 
+          type="button"
+          [class.selected]="selecionados().includes(item.id)"
+          (click)="toggleItem(item.id)">
+          {{ item.nome }}
+        </button>
+      }
+    </div>
+    <div class="resultado">
+    <h3>Tempo total estimado (+10min preparo): {{ tempoTotal().texto }}</h3>
+  </div>
+
+    <select [(ngModel)]="formulario.mecanico" required>
+      <option value="">SELECIONE O MECÂNICO</option>
+      <option value="Quick Service">QUICK SERVICE</option>
+      <option value="Antônio">ANTÔNIO</option>
+      <option value="Lucas">LUCAS</option>
+    </select>
+  </div>
+
+  <div class="principal__contato_input">
+    <input type="text" [(ngModel)]="formulario.observacao" placeholder="OBSERVAÇÃO">
+  </div>
+
+  <p class="termos_condicoes">Os dados serão mantidos em nossa base de dados... <a href="https://www.ford.com.br/politica-de-privacidade/" target="_blank">Termos e Condições</a>.</p>
+
+  <button type="button" class="principal__contato__botao" (click)="enviar()">Enviar</button>
 </div>
-
-            <input type="text" id="observacao" name="observacao" placeholder="OBSERVAÇÃO">
-        </form>
-
-        <p class="termos_condicoes">Os dados serão mantidos em nossa base de dados, só enquanto for desejado por você. A qualquer momento, será possível editar ou remover tais dados. <a href="https://www.ford.com.br/politica-de-privacidade/" target="_blank">Termos e Condições</a>.</p>
-
-            <div class="termos_checkbox">
-                <input type="checkbox" id="termos" name="termos" required>
-                <label for="termos">Sim, li e concordo com os termos e condições.</label>
-            </div>
-            <div class="termos_checkbox">
-                <input type="checkbox" id="novidades" name="novidades">
-                <label for="novidades">Sim, também quero receber descontos e novidades.</label>
-            </div>
-            <button type="submit" class="principal__contato__botao">Enviar</button>
-</div>
-
-<script src="https://unpkg.com/imask"></script>

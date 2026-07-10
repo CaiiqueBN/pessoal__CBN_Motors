@@ -1,0 +1,54 @@
+<div class="pedidos-container" style="padding: 20px; display: flex; gap: 20px; flex-wrap: wrap;">
+  
+  <h2 style="width: 100%;">Pedidos em Andamento</h2>
+
+  @if (listaPedidos().length === 0) {
+    <p>Nenhum pedido foi realizado ainda.</p>
+  }
+
+  @for (pedido of listaPedidos(); track $index) {
+    <div class="card shadow" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; width: 350px; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+      
+      <div>
+        <h3 style="margin-top: 0; color: #003478;">{{ pedido.nome }} {{ pedido.sobrenome }}</h3>
+        
+        <p><strong>Veículo:</strong> {{ pedido.modelo }} ({{ pedido.cor }}) - Placa: {{ pedido.placa }}</p>
+        <p><strong>Contato:</strong> {{ pedido.telefone }} (Prefere: {{ pedido.contato }})</p>
+        <p><strong>Mecânico:</strong> {{ pedido.mecanico || 'Não selecionado' }}</p>
+        
+        <hr>
+        
+        <h4>Serviços Solicitados:</h4>
+        <ul>
+          @for (servico of pedido.servicosSelecionados; track $index) {
+            <li>{{ servico }}</li>
+          }
+        </ul>
+        
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 15px; text-align: center; border: 1px solid #cce5ff;">
+          <div style="font-size: 0.9em; color: #555;">Estimativa Inicial: {{ pedido.tempoTotal }}</div>
+          
+          <div style="font-size: 1.5em; font-weight: bold; color: #d9534f; margin-top: 8px;">
+            {{ getTempoRestante(pedido.dataFimEstimada) }}
+          </div>
+        </div>
+
+        @if (pedido.observacao) {
+          <p style="margin-top: 15px; font-size: 0.9em; color: #666; border-top: 1px dashed #ccc; padding-top: 10px;">
+            <strong>Obs:</strong> {{ pedido.observacao }}
+          </p>
+        }
+      </div>
+
+      <button 
+        type="button" 
+        (click)="excluirPedido($index)" 
+        style="margin-top: 20px; background-color: #dc3545; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.2s;"
+        onmouseover="this.style.backgroundColor='#c82333'"
+        onmouseout="this.style.backgroundColor='#dc3545'">
+        Remover Pedido
+      </button>
+
+    </div>
+  }
+</div>

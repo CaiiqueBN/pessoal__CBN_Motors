@@ -14,4 +14,8 @@ export class MenuComponent {
   goToDashboard() {
     this.router.navigate(['/dashboard']);
   }
+
+  goToQuadro() {
+    this.router.navigate(['/quadro']);
+  }
 }
