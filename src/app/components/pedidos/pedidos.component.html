@@ -20,8 +20,9 @@
         
         <h4>Serviços Solicitados:</h4>
         <ul>
+          <!-- CORREÇÃO AQUI: Acessando .nome do objeto serviço -->
           @for (servico of pedido.servicosSelecionados; track $index) {
-            <li>{{ servico }}</li>
+            <li>{{ servico.nome }}</li>
           }
         </ul>
         

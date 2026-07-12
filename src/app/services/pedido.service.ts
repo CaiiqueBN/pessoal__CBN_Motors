@@ -1,48 +1,41 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 
 export interface Pedido {
-  nome: string;
-  sobrenome: string;
-  cnh: string;
-  email: string;
-  telefone: string;
-  contato: string;
-  placa: string;
-  modelo: string;
-  cor: string;
-  servicosSelecionados: string[];
+  nome: string; sobrenome: string; cnh: string; email: string;
+  telefone: string; contato: string; placa: string; modelo: string;
+  cor: string; 
+  // Alterado para incluir preço do serviço original
+  servicosSelecionados: { nome: string; preco: number }[]; 
   tempoTotal: string; 
-  dataFimEstimada: Date;
-  mecanico: string;
-  observacao: string;
+  dataFimEstimada: Date; mecanico: string; observacao: string;
+  valorTotal: number;
 }
 
 export interface Orcamento {
-  cliente: string;
-  placa: string;
+  cliente: string; placa: string;
   itens: { nome: string; quantidade: number; subtotal: number }[];
-  valorTotal: number;
-  data: Date;
+  valorTotal: number; data: Date;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PedidoService {
   pedidos = signal<Pedido[]>([]);
-
   orcamentos = signal<Orcamento[]>([]);
 
-  adicionarPedido(pedido: Pedido) {
-    this.pedidos.update(lista => [...lista, pedido]);
-  }
+  adicionarPedido(pedido: Pedido) { this.pedidos.update(lista => [...lista, pedido]); }
+  removerPedido(index: number) { this.pedidos.update(lista => lista.filter((_, i) => i !== index)); }
+  adicionarOrcamento(orcamento: Orcamento) { this.orcamentos.update(lista => [...lista, orcamento]); }
 
-  // NOVA FUNÇÃO: Remove o pedido pelo índice da lista
-  removerPedido(index: number) {
-    this.pedidos.update(lista => lista.filter((_, i) => i !== index));
-  }
-
-  adicionarOrcamento(orcamento: Orcamento) {
-    this.orcamentos.update(lista => [...lista, orcamento]);
-  }
+  gastoTotalPorCliente = computed(() => {
+    return this.pedidos().map(p => {
+      const orcamentosDoCliente = this.orcamentos().filter(o => o.placa === p.placa);
+      const totalOrcamentos = orcamentosDoCliente.reduce((sum, o) => sum + o.valorTotal, 0);
+      return {
+        ...p,
+        listaOrcamentos: orcamentosDoCliente,
+        valorOrcamentos: totalOrcamentos,
+        valorGeral: p.valorTotal + totalOrcamentos
+      };
+    });
+  });
 }

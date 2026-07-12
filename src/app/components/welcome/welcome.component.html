@@ -32,7 +32,7 @@
       <option value="">COR</option>
       <option value="Branco">BRANCO</option>
       <option value="Preto">PRETO</option>
-      <option value="Prata">PRATA</option>
+      <option value="Prata">ROSA</option>
     </select>
   </div>
 
@@ -50,8 +50,9 @@
       }
     </div>
     <div class="resultado">
-    <h3>Tempo total estimado (+10min preparo): {{ tempoTotal().texto }}</h3>
-  </div>
+  <h3>Tempo total estimado: {{ resumo().textoTempo }}</h3>
+  <h3>Valor Total: {{ resumo().valorTotal | currency:'BRL':'symbol':'1.2-2' }}</h3>
+</div>
 
     <select [(ngModel)]="formulario.mecanico" required>
       <option value="">SELECIONE O MECÂNICO</option>
