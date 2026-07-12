@@ -17,11 +17,21 @@ export interface Pedido {
   observacao: string;
 }
 
+export interface Orcamento {
+  cliente: string;
+  placa: string;
+  itens: { nome: string; quantidade: number; subtotal: number }[];
+  valorTotal: number;
+  data: Date;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoService {
   pedidos = signal<Pedido[]>([]);
+
+  orcamentos = signal<Orcamento[]>([]);
 
   adicionarPedido(pedido: Pedido) {
     this.pedidos.update(lista => [...lista, pedido]);
@@ -30,5 +40,9 @@ export class PedidoService {
   // NOVA FUNÇÃO: Remove o pedido pelo índice da lista
   removerPedido(index: number) {
     this.pedidos.update(lista => lista.filter((_, i) => i !== index));
+  }
+
+  adicionarOrcamento(orcamento: Orcamento) {
+    this.orcamentos.update(lista => [...lista, orcamento]);
   }
 }
