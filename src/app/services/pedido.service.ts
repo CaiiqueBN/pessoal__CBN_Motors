@@ -1,11 +1,12 @@
 import { Injectable, signal, computed } from '@angular/core';
 
+export interface Servico { nome: string; preco: number; concluido: boolean; }
+
 export interface Pedido {
   nome: string; sobrenome: string; cnh: string; email: string;
   telefone: string; contato: string; placa: string; modelo: string;
   cor: string; 
-  // Alterado para incluir preço do serviço original
-  servicosSelecionados: { nome: string; preco: number }[]; 
+  servicosSelecionados: Servico[]; // Agora usa a interface Servico
   tempoTotal: string; 
   dataFimEstimada: Date; mecanico: string; observacao: string;
   valorTotal: number;

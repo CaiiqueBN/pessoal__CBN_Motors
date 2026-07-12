@@ -70,9 +70,9 @@ export class WelcomeComponent {
       ...this.formulario,
       // Mapeamento alterado para salvar nome e preço dos serviços
       servicosSelecionados: this.selecionados().map(id => { 
-        const item = this.itens.find(i => i.id === id)!; 
-        return { nome: item.nome, preco: item.preco }; 
-      }),
+  const item = this.itens.find(i => i.id === id)!; 
+  return { nome: item.nome, preco: item.preco, concluido: false }; 
+}),
       tempoTotal: this.resumo().textoTempo,
       dataFimEstimada: new Date(new Date().getTime() + this.resumo().minutosTotais * 60000),
       valorTotal: this.resumo().valorTotal
