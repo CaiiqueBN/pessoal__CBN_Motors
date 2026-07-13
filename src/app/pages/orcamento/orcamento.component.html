@@ -19,7 +19,6 @@
   <div class="card shadow-lg border-0" style="border-radius: 12px; padding: 30px;">
     <h2 class="mb-4" style="color: #003478; font-weight: bold;">Gerador de Orçamentos</h2>
 
-    <!-- Passo 1: Selecionar o Pedido/Carro -->
     <div class="mb-4">
       <label for="pedidoSelect" class="form-label fw-bold">Selecione o Veículo em Atendimento:</label>
       <select id="pedidoSelect" class="form-select form-select-lg" (change)="aoSelecionarPedido($event)">
@@ -32,10 +31,7 @@
       </select>
     </div>
 
-    <!-- Só exibe o resto se um pedido foi selecionado -->
     @if (pedidoSelecionado()) {
-      
-      <!-- Passo 2: Mostrar as Informações Puxadas -->
       <div class="row mb-4 p-3 rounded shadow-sm" style="background-color: #f8f9fa; border-left: 5px solid #003478;">
         <div class="col-md-6">
           <p class="mb-1"><strong>Cliente:</strong> {{ pedidoSelecionado()?.nome }} {{ pedidoSelecionado()?.sobrenome }}</p>
@@ -47,19 +43,17 @@
         </div>
       </div>
 
-      <!-- Passo 3: Catálogo Rápido de Peças e Serviços -->
       <h4 class="mb-3" style="color: #003478;">Adicionar Itens ao Orçamento</h4>
       <div class="d-flex flex-wrap gap-2 mb-4">
         @for (item of catalogoItens; track item.id) {
           <button class="btn btn-outline-primary btn-sm d-flex flex-column align-items-center p-2" 
                   (click)="adicionarItem(item)" style="width: 160px;">
             <span class="fw-bold text-center" style="font-size: 0.85rem;">{{ item.nome }}</span>
-            <span class="badge bg-primary mt-1">R$ {{ item.preco | number:'1.2-2' }}</span>
+            <span class="badge bg-primary mt-1">{{ item.preco | currency:'BRL':'R$':'1.2-2' }}</span>
           </button>
         }
       </div>
 
-      <!-- Passo 4: Tabela de Resumo e Valores -->
       <h4 class="mb-3" style="color: #003478; border-bottom: 2px solid #eee; padding-bottom: 10px;">Resumo do Orçamento</h4>
       
       @if (itensSelecionados().length === 0) {
@@ -83,8 +77,8 @@
                 <tr>
                   <td>{{ linha.peca.nome }}</td>
                   <td class="text-center fw-bold">{{ linha.quantidade }}</td>
-                  <td class="text-end">R$ {{ linha.peca.preco | number:'1.2-2' }}</td>
-                  <td class="text-end fw-bold">R$ {{ (linha.peca.preco * linha.quantidade) | number:'1.2-2' }}</td>
+                  <td class="text-end">{{ linha.peca.preco | currency:'BRL':'R$':'1.2-2' }}</td>
+                  <td class="text-end fw-bold">{{ (linha.peca.preco * linha.quantidade) | currency:'BRL':'R$':'1.2-2' }}</td>
                   <td class="text-center">
                     <button class="btn btn-sm btn-danger" (click)="removerItem(linha.peca.id)">
                       -1 Remover
@@ -96,7 +90,7 @@
             <tfoot>
               <tr style="background-color: #f1f1f1;">
                 <th colspan="3" class="text-end fs-5 py-3">VALOR TOTAL:</th>
-                <th class="text-end fs-4 py-3" style="color: #d9534f;">R$ {{ valorTotal() | number:'1.2-2' }}</th>
+                <th class="text-end fs-4 py-3" style="color: #d9534f;">{{ valorTotal() | currency:'BRL':'R$':'1.2-2' }}</th>
                 <th></th>
               </tr>
             </tfoot>
@@ -112,7 +106,6 @@
     }
   </div>
 
-  <!-- Histórico de Orçamentos -->
 <div class="card shadow-sm border-0 mt-5" style="border-radius: 12px; padding: 30px;">
   <h3 class="mb-4" style="color: #003478;">Orçamentos Realizados</h3>
   
@@ -135,7 +128,7 @@
               }
             </ul>
             <div class="text-end fw-bold fs-5 text-success">
-              Total: R$ {{ orc.valorTotal | number:'1.2-2' }}
+              Total: {{ orc.valorTotal | currency:'BRL':'R$':'1.2-2' }}
             </div>
           </div>
         </div>

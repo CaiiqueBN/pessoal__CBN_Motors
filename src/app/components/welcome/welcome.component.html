@@ -32,7 +32,8 @@
       <option value="">COR</option>
       <option value="Branco">BRANCO</option>
       <option value="Preto">PRETO</option>
-      <option value="Prata">ROSA</option>
+      <option value="Prata">PRATA</option>
+      <option value="Rosa">ROSA</option>
     </select>
   </div>
 
@@ -49,12 +50,41 @@
         </button>
       }
     </div>
-    <div class="resultado">
-  <h3>Tempo total estimado: {{ resumo().textoTempo }}</h3>
-  <h3>Valor Total: {{ resumo().valorTotal | currency:'BRL':'symbol':'1.2-2' }}</h3>
-</div>
 
-    <select [(ngModel)]="formulario.mecanico" required>
+    <!-- ÁREA DE RESUMO DETALHADO DO PEDIDO -->
+    <div class="resultado" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; border: 1px solid #dee2e6;">
+      <h3 style="color: #003478; margin-top: 0; margin-bottom: 15px; text-align: center;">Resumo do Pedido</h3>
+      
+      <!-- LISTA DETALHADA DE SERVIÇOS -->
+      @if (resumo().itensDetalhados.length > 0) {
+        <ul style="list-style: none; padding: 0; margin-bottom: 20px;">
+          @for (item of resumo().itensDetalhados; track item.id) {
+            <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #ccc; padding: 8px 0; color: #444;">
+              <span>{{ item.nome }}</span>
+              <!-- Formatando cada item individual -->
+              <strong>{{ item.preco | currency:'BRL':'R$':'1.2-2' }}</strong>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p style="text-align: center; color: #888; font-style: italic; margin-bottom: 20px;">Nenhum serviço selecionado ainda.</p>
+      }
+
+      <!-- TEMPO ESTIMADO -->
+      <div style="display: flex; justify-content: space-between; font-size: 1.1em; color: #333;">
+        <span><strong>Tempo estimado:</strong></span>
+        <span>{{ resumo().textoTempo }}</span>
+      </div>
+      
+      <!-- VALOR TOTAL -->
+      <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 1.3em; color: #d9534f; border-top: 2px solid #ddd; padding-top: 15px;">
+        <span><strong>Valor Total:</strong></span>
+        <!-- Formatando o valor total -->
+        <strong>{{ resumo().valorTotal | currency:'BRL':'R$':'1.2-2' }}</strong>
+      </div>
+    </div>
+
+    <select [(ngModel)]="formulario.mecanico" required style="margin-top: 20px;">
       <option value="">SELECIONE O MECÂNICO</option>
       <option value="Quick Service">QUICK SERVICE</option>
       <option value="Antônio">ANTÔNIO</option>
@@ -68,5 +98,12 @@
 
   <p class="termos_condicoes">Os dados serão mantidos em nossa base de dados... <a href="https://www.ford.com.br/politica-de-privacidade/" target="_blank">Termos e Condições</a>.</p>
 
-  <button type="button" class="principal__contato__botao" (click)="enviar()">Enviar</button>
+  <button 
+    type="button" 
+    class="principal__contato__botao" 
+    (click)="enviar()"
+    [disabled]="!formValido"
+    [ngStyle]="{'opacity': formValido ? '1' : '0.5', 'cursor': formValido ? 'pointer' : 'not-allowed'}">
+    Enviar
+  </button>
 </div>

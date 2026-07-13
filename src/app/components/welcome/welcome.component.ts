@@ -1,8 +1,12 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, LOCALE_ID } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 import { FormsModule } from '@angular/forms';
 import { PedidoService } from '../../services/pedido.service';
+
+// Registra os dados de formatação do Brasil (pt-BR)
+registerLocaleData(localePt);
 
 interface Item {
   id: number;
@@ -15,6 +19,8 @@ interface Item {
   selector: 'app-welcome',
   standalone: true,
   imports: [RouterModule, CommonModule, FormsModule],
+  // Define o idioma padrão do componente como pt-BR
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.css'
 })
@@ -36,8 +42,8 @@ export class WelcomeComponent {
     { id: 6, nome: 'Oxisanitização', tempoMinutos: 20, preco: 80 },
     { id: 7, nome: 'Troca de peça', tempoMinutos: 45, preco: 200 },
     { id: 8, nome: 'Lavagem', tempoMinutos: 30, preco: 70 },
-    { id: 9, nome: 'Extra (30min)', tempoMinutos: 30, preco: 100 },
-    { id: 10, nome: 'Extra (60min)', tempoMinutos: 60, preco: 200 }
+    { id: 9, nome: 'Extra (30min)', tempoMinutos: 30, preco: 0 },
+    { id: 10, nome: 'Extra (60min)', tempoMinutos: 60, preco: 0 }
   ];
 
   selecionados = signal<number[]>([]);
@@ -56,7 +62,12 @@ export class WelcomeComponent {
         textoTempo = `${horas > 0 ? horas + 'h ' : ''}${min > 0 ? min + 'min' : ''}`;
     }
 
-    return { textoTempo, valorTotal: somaPreco, minutosTotais: totalMinutos };
+    return { 
+      textoTempo, 
+      valorTotal: somaPreco, 
+      minutosTotais: totalMinutos,
+      itensDetalhados: itensSelecionados 
+    };
   });
 
   toggleItem(id: number) {
@@ -65,14 +76,42 @@ export class WelcomeComponent {
     );
   }
 
+  // Verifica se todos os campos obrigatórios e serviços foram preenchidos
+  get formValido(): boolean {
+    const f = this.formulario;
+    
+    const dadosObrigatoriosPreenchidos = !!(
+      f.nome.trim() && 
+      f.sobrenome.trim() && 
+      f.cnh.trim() && 
+      f.email.trim() && 
+      f.telefone.trim() && 
+      f.contato !== '' && 
+      f.placa.trim() && 
+      f.modelo !== '' && 
+      f.cor !== '' && 
+      f.mecanico !== ''
+    );
+
+    const servicoSelecionado = this.selecionados().length > 0;
+
+    // Retorna true apenas se os dados do cliente/veículo E os serviços estiverem preenchidos
+    return dadosObrigatoriosPreenchidos && servicoSelecionado;
+  }
+
   enviar() {
+    // Dupla verificação de segurança: caso consigam clicar, impede o envio se inválido
+    if (!this.formValido) {
+      alert('Por favor, preencha todos os campos obrigatórios e selecione ao menos um serviço.');
+      return;
+    }
+
     const novoPedido = {
       ...this.formulario,
-      // Mapeamento alterado para salvar nome e preço dos serviços
       servicosSelecionados: this.selecionados().map(id => { 
-  const item = this.itens.find(i => i.id === id)!; 
-  return { nome: item.nome, preco: item.preco, concluido: false }; 
-}),
+        const item = this.itens.find(i => i.id === id)!; 
+        return { nome: item.nome, preco: item.preco, concluido: false }; 
+      }),
       tempoTotal: this.resumo().textoTempo,
       dataFimEstimada: new Date(new Date().getTime() + this.resumo().minutosTotais * 60000),
       valorTotal: this.resumo().valorTotal
@@ -80,7 +119,6 @@ export class WelcomeComponent {
 
     this.pedidoService.adicionarPedido(novoPedido as any);
     
-    // Limpar formulário e seleções
     this.formulario = {
       nome: '', sobrenome: '', cnh: '', email: '', telefone: '', contato: '',
       placa: '', modelo: '', cor: '', mecanico: '', observacao: ''

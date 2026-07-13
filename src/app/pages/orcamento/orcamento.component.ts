@@ -1,11 +1,13 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, computed, LOCALE_ID } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-// Ajuste os caminhos abaixo conforme a estrutura das suas pastas
 import { MenuComponent } from '../../components/menu/menu.component'; 
 import { PedidoService, Pedido, Orcamento } from '../../services/pedido.service';
+
+// Registra os dados de formatação do Brasil (pt-BR)
+registerLocaleData(localePt);
 
 interface ItemOrcamento {
   id: number;
@@ -17,6 +19,8 @@ interface ItemOrcamento {
   selector: 'app-orcamento',
   standalone: true,
   imports: [CommonModule, FormsModule, MenuComponent],
+  // Define o idioma padrão do componente como pt-BR
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   templateUrl: './orcamento.component.html',
   styleUrl: './orcamento.component.css'
 })
@@ -24,13 +28,9 @@ export class OrcamentoComponent {
   pedidoService = inject(PedidoService);
   router = inject(Router);
 
-  // Puxa a lista de pedidos já cadastrados
   listaPedidos = this.pedidoService.pedidos; 
-  
-  // Guarda o pedido que o usuário selecionar no dropdown
   pedidoSelecionado = signal<Pedido | null>(null);
 
-  // Lista de peças e serviços disponíveis para o orçamento
   catalogoItens: ItemOrcamento[] = [
     { id: 1, nome: 'Líquido Aditivo (Arrefecimento)', preco: 65.00 },
     { id: 2, nome: 'Kit Lubrificação (Óleo + Filtro)', preco: 280.00 },
@@ -44,15 +44,12 @@ export class OrcamentoComponent {
     { id: 10, nome: 'Higienização Interna', preco: 120.00 }
   ];
 
-  // Itens que foram adicionados ao orçamento atual
   itensSelecionados = signal<{peca: ItemOrcamento, quantidade: number}[]>([]);
 
-  // Calcula o valor total do orçamento automaticamente
   valorTotal = computed(() => {
     return this.itensSelecionados().reduce((total, item) => total + (item.peca.preco * item.quantidade), 0);
   });
 
-  // Função disparada ao escolher um pedido no <select>
   aoSelecionarPedido(event: any) {
     const index = event.target.value;
     if (index !== '') {
@@ -60,11 +57,9 @@ export class OrcamentoComponent {
     } else {
       this.pedidoSelecionado.set(null);
     }
-    // Reseta o carrinho de orçamento ao trocar de cliente
     this.itensSelecionados.set([]);
   }
 
-  // Adiciona um item ou aumenta a quantidade se já existir
   adicionarItem(peca: ItemOrcamento) {
     this.itensSelecionados.update(itens => {
       const itemExistente = itens.find(i => i.peca.id === peca.id);
@@ -76,7 +71,6 @@ export class OrcamentoComponent {
     });
   }
 
-  // Remove um item ou diminui a quantidade
   removerItem(id: number) {
     this.itensSelecionados.update(itens => {
       const itemExistente = itens.find(i => i.peca.id === id);
@@ -90,26 +84,26 @@ export class OrcamentoComponent {
 
   listaOrcamentos = this.pedidoService.orcamentos;
 
-salvarOrcamento() {
-  const pedido = this.pedidoSelecionado();
-  if (pedido) {
-    const novoOrcamento: Orcamento = {
-      cliente: `${pedido.nome} ${pedido.sobrenome}`,
-      placa: pedido.placa,
-      itens: this.itensSelecionados().map(i => ({
-        nome: i.peca.nome,
-        quantidade: i.quantidade,
-        subtotal: i.peca.preco * i.quantidade
-      })),
-      valorTotal: this.valorTotal(),
-      data: new Date()
-    };
+  salvarOrcamento() {
+    const pedido = this.pedidoSelecionado();
+    if (pedido) {
+      const novoOrcamento: Orcamento = {
+        cliente: `${pedido.nome}${pedido.sobrenome}`,
+        placa: pedido.placa,
+        itens: this.itensSelecionados().map(i => ({
+          nome: i.peca.nome,
+          quantidade: i.quantidade,
+          subtotal: i.peca.preco * i.quantidade
+        })),
+        valorTotal: this.valorTotal(),
+        data: new Date()
+      };
 
-    this.pedidoService.adicionarOrcamento(novoOrcamento);
-    alert('Orçamento salvo com sucesso!');
-    this.itensSelecionados.set([]); // Limpa o formulário
+      this.pedidoService.adicionarOrcamento(novoOrcamento);
+      alert('Orçamento salvo com sucesso!');
+      this.itensSelecionados.set([]); 
+    }
   }
-}
 
   logout() {
     sessionStorage.clear();
