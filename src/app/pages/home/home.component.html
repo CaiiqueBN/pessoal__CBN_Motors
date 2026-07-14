@@ -1,7 +1,3 @@
-<head>
-    <title> CBN Motors | Home</title>
-</head>
-
 <header class="navbar navbar-light bg-white border-bottom px-2 px-md-4 fixed-top d-flex justify-content-between align-items-center" style="height: 75px;">
   
   <div class="d-flex align-items-center gap-2 gap-md-3">
@@ -10,7 +6,7 @@
 
   <div class="position-absolute start-50 translate-middle-x">
     <a href="http://localhost:4200/home">
-        <img src="/img/logo-ford-256.png" height="40" alt="Ford Logo" class="img-fluid" style="max-height: 40px;">
+        <img src="img/Logo.png" height="90" alt="Ford Logo" class="img-fluid" style="max-height: 90px;">
     </a>
   </div>
 
@@ -22,6 +18,8 @@
   
 </header>
 
-<main class="container-fluid d-flex justify-content-center" style="margin-top: 100px;">
-  <app-welcome></app-welcome>
+<!-- AJUSTES AQUI: padding-top no lugar de margin-top, min-height e overflow -->
+<main class="d-flex justify-content-center" style="padding-top: 80px; max-height: 100vh; max-width: 100vw;">
+  <!-- Garantindo que o componente filho ocupe o espaço corretamente -->
+  <app-welcome style="width: 100%; display: block;"></app-welcome>
 </main>

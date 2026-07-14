@@ -1,109 +1,184 @@
-<div class="card border-0 shadow-lg" style="border-radius: 12px; overflow: hidden; max-width: 1100px; width: 100%;">
-  
-  <div class="principal__contato_input">
-    <p>INFORMAÇÕES DO CONDUTOR:</p>
-    <input type="text" [(ngModel)]="formulario.nome" required placeholder="NOME">
-    <input type="text" [(ngModel)]="formulario.sobrenome" required placeholder="SOBRENOME">
-    <input type="text" [(ngModel)]="formulario.cnh" required placeholder="CNH">
-    <input type="email" [(ngModel)]="formulario.email" required placeholder="E-MAIL">
-    <input type="text" [(ngModel)]="formulario.telefone" required placeholder="TELEFONE">
-
-    <select [(ngModel)]="formulario.contato" required>
-      <option value="">COMO DESEJA SER CONTATADO</option>
-      <option value="Email">E-MAIL</option>
-      <option value="Telefone">TELEFONE</option>
-      <option value="WhatsApp">WHATSAPP</option>
-    </select>
+<!-- Adicionado mx-auto para garantir a centralização sem vazar -->
+<div class="container-fluid py-4 mx-auto" style="max-width: 1200px; width: 100%;">
+  <!-- ... o restante do seu código ... -->
+  <!-- Título da Página -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 style="color: #003478; font-weight: 700;">Agendamento de Serviços</h2>
+      <p class="text-muted">Preencha os dados abaixo para solicitar o serviço na nossa oficina.</p>
+    </div>
   </div>
 
-  <div class="principal__contato_input">
-    <p>INFORMAÇÕES DO VEÍCULO:</p>
-
-    <input type="text" [(ngModel)]="formulario.placa" required placeholder="PLACA">
-
-    <select [(ngModel)]="formulario.modelo" required>
-      <option value="">MODELO DO VEÍCULO</option>
-      <option value="Fiesta">FIESTA</option>
-      <option value="Ka">KA</option>
-      <option value="Ranger">RANGER</option>
-    </select>
-
-    <select [(ngModel)]="formulario.cor" required>
-      <option value="">COR</option>
-      <option value="Branco">BRANCO</option>
-      <option value="Preto">PRETO</option>
-      <option value="Prata">PRATA</option>
-      <option value="Rosa">ROSA</option>
-    </select>
-  </div>
-
-  <div class="container">
-    <h2>Selecione os serviços:</h2>
+  <div class="row g-4">
     
-    <div class="grid-itens">
-      @for (item of itens; track item.id) {
-        <button 
-          type="button"
-          [class.selected]="selecionados().includes(item.id)"
-          (click)="toggleItem(item.id)">
-          {{ item.nome }}
-        </button>
-      }
-    </div>
-
-    <!-- ÁREA DE RESUMO DETALHADO DO PEDIDO -->
-    <div class="resultado" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; border: 1px solid #dee2e6;">
-      <h3 style="color: #003478; margin-top: 0; margin-bottom: 15px; text-align: center;">Resumo do Pedido</h3>
+    <!-- ==========================================
+         COLUNA ESQUERDA: DADOS DO CLIENTE E VEÍCULO
+         ========================================== -->
+    <div class="col-lg-6 col-12">
       
-      <!-- LISTA DETALHADA DE SERVIÇOS -->
-      @if (resumo().itensDetalhados.length > 0) {
-        <ul style="list-style: none; padding: 0; margin-bottom: 20px;">
-          @for (item of resumo().itensDetalhados; track item.id) {
-            <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed #ccc; padding: 8px 0; color: #444;">
-              <span>{{ item.nome }}</span>
-              <!-- Formatando cada item individual -->
-              <strong>{{ item.preco | currency:'BRL':'R$':'1.2-2' }}</strong>
-            </li>
+      <!-- CARD: Condutor -->
+      <div class="card border-0 shadow-sm mb-4 form-card">
+        <div class="card-body p-4">
+          <h5 class="card-title text-custom-primary mb-4">1. Informações do Condutor</h5>
+          
+          <div class="row g-3">
+            <div class="col-md-6">
+              <input type="text" class="form-control form-control-custom" [(ngModel)]="formulario.nome" required placeholder="Nome">
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control form-control-custom" [(ngModel)]="formulario.sobrenome" required placeholder="Sobrenome">
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control form-control-custom" [(ngModel)]="formulario.cnh" required placeholder="CNH">
+            </div>
+            <div class="col-md-6">
+              <!-- REFERÊNCIA #telefoneInput ADICIONADA AQUI -->
+              <input type="text" #telefoneInput class="form-control form-control-custom" [(ngModel)]="formulario.telefone" required placeholder="Telefone">
+            </div>
+            <div class="col-md-12">
+              <input type="email" class="form-control form-control-custom" [(ngModel)]="formulario.email" required placeholder="E-mail">
+            </div>
+            <div class="col-md-12">
+              <select class="form-select form-control-custom" [(ngModel)]="formulario.contato" required>
+                <option value="">Como deseja ser contatado?</option>
+                <option value="Email">E-mail</option>
+                <option value="Telefone">Telefone</option>
+                <option value="WhatsApp">WhatsApp</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD: Veículo -->
+      <div class="card border-0 shadow-sm form-card">
+        <div class="card-body p-4">
+          <h5 class="card-title text-custom-primary mb-4">2. Informações do Veículo</h5>
+          
+          <div class="row g-3">
+            <div class="col-md-4">
+              <input type="text" class="form-control form-control-custom" [(ngModel)]="formulario.placa" required placeholder="Placa">
+            </div>
+            <div class="col-md-4">
+              <select class="form-select form-control-custom" [(ngModel)]="formulario.modelo" required>
+                <option value="">Modelo</option>
+                <option value="Celta">CELTA</option>
+                <option value="Fiesta">FIESTA</option>
+                <option value="Gol">GOL</option>
+                <option value="Uno">UNO</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <select class="form-select form-control-custom" [(ngModel)]="formulario.cor" required>
+                <option value="">Cor</option>
+                <option value="Branco">BRANCO</option>
+                <option value="Prata">PRATA</option>
+                <option value="Preto">PRETO</option>
+                <option value="Vermelho">VERMELHO</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- IMAGEM DINÂMICA DO VEÍCULO -->
+          @if (imagemVeiculo) {
+            <div class="veiculo-preview mt-4">
+              <p class="text-muted small mb-2 text-center">Pré-visualização do Veículo</p>
+              <img [src]="imagemVeiculo" alt="Veículo selecionado" class="img-fluid mx-auto d-block" style="max-height: 180px; object-fit: contain;">
+            </div>
           }
-        </ul>
-      } @else {
-        <p style="text-align: center; color: #888; font-style: italic; margin-bottom: 20px;">Nenhum serviço selecionado ainda.</p>
-      }
+        </div>
+      </div>
 
-      <!-- TEMPO ESTIMADO -->
-      <div style="display: flex; justify-content: space-between; font-size: 1.1em; color: #333;">
-        <span><strong>Tempo estimado:</strong></span>
-        <span>{{ resumo().textoTempo }}</span>
-      </div>
-      
-      <!-- VALOR TOTAL -->
-      <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 1.3em; color: #d9534f; border-top: 2px solid #ddd; padding-top: 15px;">
-        <span><strong>Valor Total:</strong></span>
-        <!-- Formatando o valor total -->
-        <strong>{{ resumo().valorTotal | currency:'BRL':'R$':'1.2-2' }}</strong>
-      </div>
     </div>
 
-    <select [(ngModel)]="formulario.mecanico" required style="margin-top: 20px;">
-      <option value="">SELECIONE O MECÂNICO</option>
-      <option value="Quick Service">QUICK SERVICE</option>
-      <option value="Antônio">ANTÔNIO</option>
-      <option value="Lucas">LUCAS</option>
-    </select>
+    <!-- ==========================================
+         COLUNA DIREITA: SERVIÇOS E RESUMO
+         ========================================== -->
+    <div class="col-lg-6 col-12">
+      
+      <!-- CARD: Serviços -->
+      <div class="card border-0 shadow-sm mb-4 form-card">
+        <div class="card-body p-4">
+          <h5 class="card-title text-custom-primary mb-4">3. Selecione os Serviços</h5>
+          
+          <div class="grid-itens">
+            @for (item of itens; track item.id) {
+              <button 
+                type="button"
+                class="btn-servico"
+                [class.selected]="selecionados().includes(item.id)"
+                (click)="toggleItem(item.id)">
+                {{ item.nome }}
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD: Resumo e Envio -->
+      <div class="card border-0 shadow-sm form-card bg-light-blue">
+        <div class="card-body p-4">
+          <h5 class="card-title text-custom-primary mb-4">4. Resumo do Pedido</h5>
+          
+          <!-- LISTA DETALHADA -->
+          <div class="resumo-box mb-4">
+            @if (resumo().itensDetalhados.length > 0) {
+              <ul class="list-unstyled mb-0">
+                @for (item of resumo().itensDetalhados; track item.id) {
+                  <li class="d-flex justify-content-between align-items-center border-bottom border-secondary-subtle py-2">
+                    <span class="text-dark">{{ item.nome }}</span>
+                    <strong class="text-dark">{{ item.preco | currency:'BRL':'R$':'1.2-2' }}</strong>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="text-center text-muted mb-0 font-italic">Nenhum serviço selecionado.</p>
+            }
+          </div>
+
+          <!-- TOTAIS -->
+          <div class="d-flex justify-content-between text-muted mb-2">
+            <span>Tempo estimado de serviço:</span>
+            <strong>{{ resumo().textoTempo }}</strong>
+          </div>
+          
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-dark-subtle mb-4">
+            <span class="fs-5 text-dark">Total a pagar:</span>
+            <strong class="fs-4 text-danger">{{ resumo().valorTotal | currency:'BRL':'R$':'1.2-2' }}</strong>
+          </div>
+
+          <!-- MECÂNICO E OBSERVAÇÕES -->
+          <div class="mb-3">
+            <select class="form-select form-control-custom" [(ngModel)]="formulario.mecanico" required>
+              <option value="">Selecione o Mecânico Responsável</option>
+              <option value="Quick Service">QUICK SERVICE (Mais Rápido)</option>
+              <option value="Antônio">ANTÔNIO</option>
+              <option value="Lucas">LUCAS</option>
+              <option value="Hudson">HUDSON</option>
+              <option value="Pedro">PEDRO</option>
+              <option value="Victor">VICTOR</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <textarea class="form-control form-control-custom" [(ngModel)]="formulario.observacao" rows="2" placeholder="Observações adicionais sobre o veículo (Opcional)"></textarea>
+          </div>
+
+          <!-- BOTÃO ENVIAR -->
+          <button 
+            type="button" 
+            class="btn btn-enviar w-100 py-3 text-uppercase fw-bold shadow-sm" 
+            (click)="enviar()"
+            [disabled]="!formValido">
+            Confirmar e Enviar Pedido
+          </button>
+
+          <p class="text-center text-muted small mt-3 mb-0">
+            Ao enviar, o condutor concorda com nossos <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" class="text-custom-primary">Termos e Condições</a>.
+          </p>
+        </div>
+      </div>
+
+    </div>
   </div>
-
-  <div class="principal__contato_input">
-    <input type="text" [(ngModel)]="formulario.observacao" placeholder="OBSERVAÇÃO">
-  </div>
-
-  <p class="termos_condicoes">Os dados serão mantidos em nossa base de dados... <a href="https://www.ford.com.br/politica-de-privacidade/" target="_blank">Termos e Condições</a>.</p>
-
-  <button 
-    type="button" 
-    class="principal__contato__botao" 
-    (click)="enviar()"
-    [disabled]="!formValido"
-    [ngStyle]="{'opacity': formValido ? '1' : '0.5', 'cursor': formValido ? 'pointer' : 'not-allowed'}">
-    Enviar
-  </button>
 </div>

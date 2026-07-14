@@ -1,87 +1,117 @@
-.principal__contato {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    flex: 1;
+/* Variáveis de cor inspiradas em montadoras/oficinas modernas */
+.text-custom-primary {
+  color: #003478 !important; /* Azul escuro corporativo */
+  font-weight: 700;
 }
 
-.principal__contato img {
-    width: 463px;
-    height: auto;
+.bg-light-blue {
+  background-color: #f4f7fb !important; /* Fundo suave para destaque */
 }
 
-.principal__contato_input {
-    display: flex;
-    flex-direction: column;
-    font-size: 1.25rem;
-    font-family: "Miranda Sans", sans-serif;
-    gap: 2px;
+/* Estilo geral dos cards */
+.form-card {
+  border-radius: 16px !important;
+  transition: transform 0.2s ease-in-out;
 }
 
-.principal__contato_input input[type="email"], input[type="text"], select {
-    padding: 10px;
-    border: 2px solid #ddd;
-    border-radius: 16px;
-    font-size: 0.875rem;
-    font-family: "Miranda Sans", sans-serif;
+.form-card:hover {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
 }
 
-.termos_condicoes {
-    text-align: justify;
-    width: 19rem;
-    font-size: 0.69rem;
-    font-family: "Miranda Sans", sans-serif;
-    color: rgba(102, 102, 102, 0.651);
-    overflow-wrap: break-word;
-}
-
-.termos_checkbox {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    font-size: 0.75rem;
-    font-family: "Miranda Sans", sans-serif;
-    user-select: none;
-}
-
-.principal__contato__botao {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #1242ac;
-    color: white;
-    border: none;
-    border-radius: 16px;
-    font-size: 1rem;
-}
-
-.principal__contato__botao:hover {
-    color: white;
-    background-color: #1268b9;
-    cursor: pointer;
-    transform: scale(1.05);
-}
-
-
-
-
-
-
-.grid-itens { 
-    margin: 20px 0; 
-}
-
-button {
-  padding: 10px 20px;
-  cursor: pointer;
-  border: 2px solid #ccc;
-  background: #f9f9f9;
+/* Inputs personalizados */
+.form-control-custom {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
   border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 0.95rem;
+  color: #495057;
+  transition: all 0.3s;
 }
 
-/* Estilo do item quando selecionado */
-button.selected {
-  border-color: #007bff;
-  background-color: #e7f1ff;
-  font-weight: bold;
+.form-control-custom:focus {
+  background-color: #ffffff;
+  border-color: #003478;
+  box-shadow: 0 0 0 0.25rem rgba(0, 52, 120, 0.15);
+  outline: none;
 }
+
+/* Container de pré-visualização da imagem */
+.veiculo-preview {
+  background-color: #ffffff;
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s;
+}
+
+/* Grid de seleção de serviços */
+.grid-itens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 12px;
+}
+
+.btn-servico {
+  padding: 12px 8px;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-servico:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.btn-servico.selected {
+  background-color: #003478;
+  color: #ffffff;
+  border-color: #003478;
+  box-shadow: 0 4px 8px rgba(0, 52, 120, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Caixa de resumo dos preços */
+.resumo-box {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  border: 1px solid #e9ecef;
+}
+
+/* Botão principal de enviar */
+.btn-enviar {
+  background-color: #003478;
+  color: #ffffff;
+  border-radius: 10px;
+  transition: all 0.3s;
+  border: none;
+}
+
+.btn-enviar:hover:not([disabled]) {
+  background-color: #002255;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 52, 120, 0.3) !important;
+}
+
+.btn-enviar:disabled {
+  background-color: #a5b3c5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+textarea.form-control-custom {
+  resize: none;
+}
+
