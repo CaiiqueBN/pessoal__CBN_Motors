@@ -10,3 +10,16 @@
   color: #ffffff;
   border-color: #003478;
 }
+
+.btn-custom-logout {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.btn-custom-logout:hover {
+  background-color: #dc3545; /* Vermelho padrão do Bootstrap */
+  color: #ffffff;
+  border-color: #dc3545;
+}

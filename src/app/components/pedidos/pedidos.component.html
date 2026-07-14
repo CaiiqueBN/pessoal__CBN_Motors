@@ -1,54 +1,127 @@
-<div class="pedidos-container" style="padding: 20px; display: flex; gap: 20px; flex-wrap: wrap;">
+<div class="pedidos-container" style="padding: 20px; display: flex; gap: 20px; flex-wrap: wrap; justify-content: flex-start;">
   
-  <h2 style="width: 100%;">Pedidos em Andamento</h2>
+  <h2 style="width: 100%; color: #003478; font-weight: 700; margin-bottom: 20px;">Serviços em Andamento</h2>
 
   @if (listaPedidos().length === 0) {
-    <p>Nenhum pedido foi realizado ainda.</p>
+    <div style="width: 100%; padding: 30px; background-color: #f8f9fa; border-radius: 8px; text-align: center; border: 1px dashed #ccc;">
+      <p style="margin: 0; color: #666; font-size: 1.1em;">Nenhum agendamento ou serviço em execução no momento.</p>
+    </div>
   }
 
   @for (pedido of listaPedidos(); track $index) {
-    <div class="card shadow" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; width: 350px; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+    <div class="card shadow-sm" style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 24px; width: 380px; position: relative; display: flex; flex-direction: column; justify-content: space-between; background-color: #ffffff; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
       
       <div>
-        <h3 style="margin-top: 0; color: #003478;">{{ pedido.nome }} {{ pedido.sobrenome }}</h3>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+          <div>
+            <h3 style="margin: 0; color: #003478; font-size: 1.3em; font-weight: 700; text-transform: capitalize;">
+              {{ pedido.nome }} {{ pedido.sobrenome }}
+            </h3>
+            <span style="font-size: 0.8em; color: #6c757d; font-weight: 500;">CNH: {{ pedido.cnh }}</span>
+          </div>
+          <span style="background-color: #e3f2fd; color: #0d47a1; font-size: 0.75em; font-weight: bold; padding: 4px 10px; border-radius: 12px;">
+            Ativo
+          </span>
+        </div>
         
-        <p><strong>Veículo:</strong> {{ pedido.modelo }} ({{ pedido.cor }}) - Placa: {{ pedido.placa }}</p>
-        <p><strong>Contato:</strong> {{ pedido.telefone }} (Prefere: {{ pedido.contato }})</p>
-        <p><strong>Mecânico:</strong> {{ pedido.mecanico || 'Não selecionado' }}</p>
+        <div style="font-size: 0.85em; color: #495057; margin-bottom: 15px; line-height: 1.5;">
+          @if (pedido.contato === 'Email') {
+            <p style="margin: 2px 0;">
+              <strong>Contato Preferencial: </strong> 
+              <span style="color: #003478; font-weight: bold;">{{ pedido.email }}</span>
+            </p>
+          } @else {
+            <p style="margin: 2px 0;">
+              <strong>Contato Preferencial ({{ pedido.contato }}): </strong> 
+              <span style="color: #003478; font-weight: bold;">{{ pedido.telefone }}</span>
+            </p>
+          }
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 12px 0;">
         
-        <hr>
+        @if (obterImagemVeiculo(pedido.modelo, pedido.cor)) {
+          <div style="text-align: center; margin-bottom: 15px;">
+            <img [src]="obterImagemVeiculo(pedido.modelo, pedido.cor)" 
+                 alt="Veículo {{ pedido.modelo }} {{ pedido.cor }}" 
+                 style="max-height: 120px; max-width: 100%; object-fit: contain;">
+          </div>
+        }
+
+        <div style="margin-bottom: 15px;">
+          <h5 style="margin: 0 0 8px 0; font-size: 0.95em; color: #495057; font-weight: 600;">Veículo registrado:</h5>
+          <div style="background-color: #f8f9fa; padding: 10px; border-radius: 6px; border-left: 4px solid #003478;">
+            <p style="margin: 0; font-size: 0.9em; text-transform: uppercase;"><strong>{{ pedido.modelo }}</strong> ({{ pedido.cor }})</p>
+            <p style="margin: 3px 0 0 0; font-size: 0.85em;">Placa: <strong style="letter-spacing: 1px; background-color: #e9ecef; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">{{ pedido.placa }}</strong></p>
+          </div>
+        </div>
+
+        <p style="font-size: 0.9em; margin-bottom: 15px;">
+          <strong>Mecânico: </strong> 
+          <span style="color: #0d6efd; font-weight: bold; text-transform: uppercase;">{{ pedido.mecanico || 'Não selecionado' }}</span>
+        </p>
         
-        <h4>Serviços Solicitados:</h4>
-        <ul>
-          <!-- CORREÇÃO AQUI: Acessando .nome do objeto serviço -->
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 12px 0;">
+        
+        <h4 style="font-size: 0.95em; margin: 0 0 10px 0; color: #003478; font-weight: 700;">Serviços Selecionados:</h4>
+        <ul style="margin: 0 0 15px 0; padding-left: 0; list-style: none; font-size: 0.9em;">
           @for (servico of pedido.servicosSelecionados; track $index) {
-            <li>{{ servico.nome }}</li>
+            <li style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #e9ecef; color: #333;">
+              <span>• {{ servico.nome }}</span>
+              <strong style="color: #495057;">{{ servico.preco | currency:'BRL':'R$':'1.2-2' }}</strong>
+            </li>
           }
         </ul>
         
-        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 15px; text-align: center; border: 1px solid #cce5ff;">
-          <div style="font-size: 0.9em; color: #555;">Estimativa Inicial: {{ pedido.tempoTotal }}</div>
+        <div style="background-color: #f1f8ff; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #cce5ff;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: #555; margin-bottom: 4px;">
+            <span>Estimativa Inicial:</span>
+            <strong>{{ pedido.tempoTotal }}</strong>
+          </div>
           
-          <div style="font-size: 1.5em; font-weight: bold; color: #d9534f; margin-top: 8px;">
-            {{ getTempoRestante(pedido.dataFimEstimada) }}
+          <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #555; margin-bottom: 6px;">
+            <span>Valor dos Serviços:</span>
+            <strong style="color: #2b2b2b;">{{ pedido.valorTotal | currency:'BRL':'R$':'1.2-2' }}</strong>
+          </div>
+
+          @if (pedido.valorOrcamentos > 0) {
+            <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #d9534f; margin-bottom: 6px;">
+              <span>Orçamentos Adicionais:</span>
+              <strong>+ {{ pedido.valorOrcamentos | currency:'BRL':'R$':'1.2-2' }}</strong>
+            </div>
+          }
+
+          <div style="display: flex; justify-content: space-between; font-size: 1.05em; font-weight: bold; color: #198754; border-top: 1px solid #dee2e6; padding-top: 8px; margin-bottom: 12px;">
+            <span>Valor Geral Total:</span>
+            <span>{{ pedido.valorGeral | currency:'BRL':'R$':'1.2-2' }}</span>
+          </div>
+          
+          <div style="border-top: 1px solid #b8daff; padding-top: 8px; text-align: center;">
+            <span style="font-size: 0.75em; text-transform: uppercase; color: #004085; font-weight: bold; letter-spacing: 0.5px;">Tempo Restante</span>
+            <div style="font-size: 1.4em; font-weight: bold; color: #d9534f; margin-top: 4px;">
+              {{ getTempoRestante(pedido.dataFimEstimada) }}
+            </div>
           </div>
         </div>
 
         @if (pedido.observacao) {
-          <p style="margin-top: 15px; font-size: 0.9em; color: #666; border-top: 1px dashed #ccc; padding-top: 10px;">
+          <p style="margin-top: 15px; font-size: 0.85em; color: #666; background-color: #fff3cd; border-left: 3px solid #ffc107; padding: 8px; border-radius: 4px; line-height: 1.4; margin-bottom: 0;">
             <strong>Obs:</strong> {{ pedido.observacao }}
           </p>
         }
       </div>
 
-      <button 
-        type="button" 
-        (click)="excluirPedido($index)" 
-        style="margin-top: 20px; background-color: #dc3545; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.2s;"
-        onmouseover="this.style.backgroundColor='#c82333'"
-        onmouseout="this.style.backgroundColor='#dc3545'">
-        Remover Pedido
-      </button>
+      <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+        
+        <button 
+          type="button" 
+          (click)="excluirPedido($index)" 
+          style="background-color: #dc3545; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 0.9em; transition: background 0.2s;"
+          onmouseover="this.style.backgroundColor='#bb2d3b'"
+          onmouseout="this.style.backgroundColor='#dc3545'">
+          ✕ Cancelar / Excluir Registro
+        </button>
+      </div>
 
     </div>
   }

@@ -19,7 +19,6 @@ interface ItemOrcamento {
   selector: 'app-orcamento',
   standalone: true,
   imports: [CommonModule, FormsModule, MenuComponent],
-  // Define o idioma padrão do componente como pt-BR
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   templateUrl: './orcamento.component.html',
   styleUrl: './orcamento.component.css'
@@ -49,6 +48,15 @@ export class OrcamentoComponent {
   valorTotal = computed(() => {
     return this.itensSelecionados().reduce((total, item) => total + (item.peca.preco * item.quantidade), 0);
   });
+
+  // Função para retornar a imagem do veículo dinamicamente
+  obterImagemVeiculo(modelo?: string, cor?: string): string | null {
+    if (modelo && cor) {
+      const modeloFormatado = modelo.toLowerCase();
+      return `/img/${modeloFormatado}${cor}.png`;
+    }
+    return null;
+  }
 
   aoSelecionarPedido(event: any) {
     const index = event.target.value;
@@ -88,7 +96,7 @@ export class OrcamentoComponent {
     const pedido = this.pedidoSelecionado();
     if (pedido) {
       const novoOrcamento: Orcamento = {
-        cliente: `${pedido.nome}${pedido.sobrenome}`,
+        cliente: `${pedido.nome} ${pedido.sobrenome}`,
         placa: pedido.placa,
         itens: this.itensSelecionados().map(i => ({
           nome: i.peca.nome,

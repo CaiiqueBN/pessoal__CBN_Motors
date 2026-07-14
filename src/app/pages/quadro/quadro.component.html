@@ -1,7 +1,3 @@
-<head>
-    <title> CBN Motors | Home</title>
-</head>
-
 <header class="navbar navbar-light bg-white border-bottom px-2 px-md-4 fixed-top d-flex justify-content-between align-items-center" style="height: 75px;">
   
   <div class="d-flex align-items-center gap-2 gap-md-3">
@@ -9,7 +5,9 @@
   </div>
 
   <div class="position-absolute start-50 translate-middle-x">
-    <img src="img/Logo.png" height="90" alt="Ford Logo" class="img-fluid" style="max-height: 90px;">
+    <a href="http://localhost:4200/home">
+        <img src="img/Logo.png" height="90" alt="Ford Logo" class="img-fluid" style="max-height: 90px;">
+    </a>
   </div>
 
   <div class="d-flex align-items-center">
@@ -17,8 +15,9 @@
       Logout
     </button>
   </div>
-    
+  
 </header>
 
-
+<main class="d-flex justify-content-center" style="padding-top: 80px; max-height: 100vh; max-width: 100vw;">
 <app-pedidos></app-pedidos>
+</main>

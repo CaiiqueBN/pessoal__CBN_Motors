@@ -20,6 +20,7 @@ export interface Orcamento {
 
 // NOVA INTERFACE PARA O HISTÓRICO
 export interface VeiculoLiberado {
+  cor: string;
   cliente: string;
   telefone: string;
   placa: string;
@@ -62,6 +63,7 @@ export class PedidoService {
         telefone: veiculo.telefone,
         placa: veiculo.placa,
         modelo: veiculo.modelo,
+        cor: veiculo.cor,
         valorGeral: veiculo.valorGeral,
         dataLiberacao: new Date()
       };

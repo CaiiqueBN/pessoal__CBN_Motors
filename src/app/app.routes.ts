@@ -23,16 +23,6 @@ export const routes: Routes = [
   },
 
   {
-    path: "dashboard",
-    pathMatch: "full",
-    canActivate: [loginGuard],
-    loadComponent: () => {
-      return import('./pages/dashboard/dashboard.component')
-        .then(c => c.DashboardComponent);
-    }
-  },
-
-  {
     path: "quadro",
     pathMatch: "full",
     canActivate: [loginGuard],

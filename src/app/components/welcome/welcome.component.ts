@@ -155,6 +155,7 @@ export class WelcomeComponent implements AfterViewInit {
 
     this.pedidoService.adicionarPedido(novoPedido as any);
     
+    // Limpa o formulário
     this.formulario = {
       nome: '', sobrenome: '', cnh: '', email: '', telefone: '', contato: '',
       placa: '', modelo: '', cor: '', mecanico: '', observacao: ''
@@ -167,5 +168,7 @@ export class WelcomeComponent implements AfterViewInit {
     }
     
     alert('Pedido enviado com sucesso!');
+    
+    // O redirecionamento que estava aqui foi removido para você continuar na mesma página
   }
 }

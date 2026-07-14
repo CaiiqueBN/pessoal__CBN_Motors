@@ -1,17 +1,25 @@
-import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PedidoService } from '../../services/pedido.service'; // AJUSTE ESTE CAMINHO SE NECESSÁRIO
+import { Component, inject, signal, OnInit, OnDestroy, LOCALE_ID } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import { PedidoService } from '../../services/pedido.service';
+
+// Registra os dados de formatação do Brasil (pt-BR)
+registerLocaleData(localePt);
 
 @Component({
   selector: 'app-pedidos',
   standalone: true,
   imports: [CommonModule],
+  // Define o idioma de formatação do componente como pt-BR para as moedas
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   templateUrl: './pedidos.component.html',
   styleUrl: './pedidos.component.css'
 })
 export class PedidosComponent implements OnInit, OnDestroy {
   pedidoService = inject(PedidoService);
-  listaPedidos = this.pedidoService.pedidos; 
+  
+  // Consome a lista com os totais gerais (serviço inicial + orçamentos)
+  listaPedidos = this.pedidoService.gastoTotalPorCliente; 
   
   agora = signal(new Date());
   intervalId: any;
@@ -28,9 +36,20 @@ export class PedidosComponent implements OnInit, OnDestroy {
     }
   }
 
-  getTempoRestante(dataFim: Date): string {
+  // Método para gerar o caminho da imagem dinamicamente
+  obterImagemVeiculo(modelo: string, cor: string): string | null {
+    if (modelo && cor) {
+      const modeloFormatado = modelo.toLowerCase();
+      return `/img/${modeloFormatado}${cor}.png`;
+    }
+    return null;
+  }
+
+  getTempoRestante(dataFim: any): string {
+    // Garante que o parâmetro recebido seja convertido em uma data válida
+    const fimData = dataFim instanceof Date ? dataFim : new Date(dataFim);
     const tempoAtual = this.agora().getTime();
-    const fim = dataFim.getTime();
+    const fim = fimData.getTime();
     const diferenca = fim - tempoAtual;
 
     if (diferenca <= 0) return 'Tempo esgotado! 🔴';
@@ -46,7 +65,6 @@ export class PedidosComponent implements OnInit, OnDestroy {
     return hTexto + mTexto + sTexto + ' ⏱️';
   }
 
-  // NOVA FUNÇÃO: Pergunta se o usuário quer mesmo remover e chama o serviço
   excluirPedido(index: number) {
     const confirmar = confirm('Tem certeza que deseja remover este pedido? Esta ação não pode ser desfeita.');
     if (confirmar) {
