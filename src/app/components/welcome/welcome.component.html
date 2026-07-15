@@ -1,7 +1,4 @@
-<!-- Adicionado mx-auto para garantir a centralização sem vazar -->
 <div class="container-fluid py-4 mx-auto" style="max-width: 1200px; width: 100%;">
-  <!-- ... o restante do seu código ... -->
-  <!-- Título da Página -->
   <div class="row mb-4">
     <div class="col-12 text-center">
       <h2 style="color: #003478; font-weight: 700;">Agendamento de Serviços</h2>
@@ -11,12 +8,10 @@
 
   <div class="row g-4">
     
-    <!-- ==========================================
-         COLUNA ESQUERDA: DADOS DO CLIENTE E VEÍCULO
-         ========================================== -->
+    <!-- Coluna esquerda -->
     <div class="col-lg-6 col-12">
       
-      <!-- CARD: Condutor -->
+      <!-- Condutor -->
       <div class="card border-0 shadow-sm mb-4 form-card">
         <div class="card-body p-4">
           <h5 class="card-title text-custom-primary mb-4">1. Informações do Condutor</h5>
@@ -32,7 +27,6 @@
               <input type="text" class="form-control form-control-custom" [(ngModel)]="formulario.cnh" required placeholder="CNH">
             </div>
             <div class="col-md-6">
-              <!-- REFERÊNCIA #telefoneInput ADICIONADA AQUI -->
               <input type="text" #telefoneInput class="form-control form-control-custom" [(ngModel)]="formulario.telefone" required placeholder="Telefone">
             </div>
             <div class="col-md-12">
@@ -50,7 +44,7 @@
         </div>
       </div>
 
-      <!-- CARD: Veículo -->
+      <!-- Veículo -->
       <div class="card border-0 shadow-sm form-card">
         <div class="card-body p-4">
           <h5 class="card-title text-custom-primary mb-4">2. Informações do Veículo</h5>
@@ -79,7 +73,7 @@
             </div>
           </div>
 
-          <!-- IMAGEM DINÂMICA DO VEÍCULO -->
+          <!-- Foto do veículo -->
           @if (imagemVeiculo) {
             <div class="veiculo-preview mt-4">
               <p class="text-muted small mb-2 text-center">Pré-visualização do Veículo</p>
@@ -91,12 +85,10 @@
 
     </div>
 
-    <!-- ==========================================
-         COLUNA DIREITA: SERVIÇOS E RESUMO
-         ========================================== -->
+    <!-- Coluna direita-->
     <div class="col-lg-6 col-12">
       
-      <!-- CARD: Serviços -->
+      <!-- Serviços -->
       <div class="card border-0 shadow-sm mb-4 form-card">
         <div class="card-body p-4">
           <h5 class="card-title text-custom-primary mb-4">3. Selecione os Serviços</h5>
@@ -115,12 +107,12 @@
         </div>
       </div>
 
-      <!-- CARD: Resumo e Envio -->
+      <!-- Resumo -->
       <div class="card border-0 shadow-sm form-card bg-light-blue">
         <div class="card-body p-4">
           <h5 class="card-title text-custom-primary mb-4">4. Resumo</h5>
           
-          <!-- LISTA DETALHADA -->
+          <!-- Lista -->
           <div class="resumo-box mb-4">
             @if (resumo().itensDetalhados.length > 0) {
               <ul class="list-unstyled mb-0">
@@ -136,7 +128,7 @@
             }
           </div>
 
-          <!-- TOTAIS -->
+          <!-- Total -->
           <div class="d-flex justify-content-between text-muted mb-2">
             <span>Tempo estimado de serviço:</span>
             <strong>{{ resumo().textoTempo }}</strong>
@@ -147,7 +139,7 @@
             <strong class="fs-4 text-danger">{{ resumo().valorTotal | currency:'BRL':'R$':'1.2-2' }}</strong>
           </div>
 
-          <!-- MECÂNICO E OBSERVAÇÕES -->
+          <!-- Mecânico e obs -->
           <div class="mb-3">
             <select class="form-select form-control-custom" [(ngModel)]="formulario.mecanico" required>
               <option value="">Selecione o Mecânico Responsável</option>
@@ -164,7 +156,7 @@
             <textarea class="form-control form-control-custom" [(ngModel)]="formulario.observacao" rows="2" placeholder="Observações adicionais sobre o veículo (Opcional)"></textarea>
           </div>
 
-          <!-- BOTÃO ENVIAR -->
+          <!-- Enviar -->
           <button 
             type="button" 
             class="btn btn-enviar w-100 py-3 text-uppercase fw-bold shadow-sm" 

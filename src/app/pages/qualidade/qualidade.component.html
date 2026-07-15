@@ -1,21 +1,19 @@
+<title>CBN Motors | Qualidade/Liberação</title>
+
 <header class="navbar navbar-light bg-white border-bottom px-2 px-md-4 fixed-top d-flex justify-content-between align-items-center" style="height: 75px;">
-  
   <div class="d-flex align-items-center gap-2 gap-md-3">
     <app-menu></app-menu>
   </div>
-
   <div class="position-absolute start-50 translate-middle-x">
     <a href="http://localhost:4200/home">
-        <img src="img/Logo.png" height="90" alt="CBN Motors Logo" class="img-fluid" style="max-height: 90px;">
+      <img src="img/Logo.png" height="90" alt="CBN Motors Logo" class="img-fluid" style="max-height: 90px;">
     </a>
   </div>
-
   <div class="d-flex align-items-center">
-        <button (click)="logout()" class="btn shadow-sm px-3 px-md-4 btn-custom-logout flex-shrink-0">
+    <button (click)="logout()" class="btn shadow-sm px-3 px-md-4 btn-custom-logout flex-shrink-0">
       Logout
     </button>
-</div>
-  
+  </div>
 </header>
 
 <div class="justify-content-center" style="padding-top: 80px; max-height: 100vh; max-width: 100vw;">
@@ -81,9 +79,7 @@
     </div>
   }
 
-  <h3 class="text-secondary mt-5 mb-4" style="border-bottom: 2px solid #ccc; padding-bottom: 10px;">
-    Histórico de Veículos Liberados
-  </h3>
+  <h3 class="text-secondary mt-5 mb-4" style="border-bottom: 2px solid #ccc; padding-bottom: 10px;">Histórico de Veículos Liberados</h3>
 
   @if (historicoLiberados().length === 0) {
     <p class="text-muted">Nenhum veículo foi liberado no momento.</p>

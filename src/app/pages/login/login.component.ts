@@ -13,11 +13,10 @@ import { LoginFormComponent } from "../../components/login-form/login-form.compo
 export class LoginComponent implements OnInit, OnDestroy {
   showWelcomeCard = false;
   
-  // Injeção de dependências
   router = inject(Router);
   platformId = inject(PLATFORM_ID);
 
-  // --- LÓGICA DO CARROSSEL (FROTA COMPLETA) ---
+  // --- CARROSSEL ---
   carouselItems = [
     // --- GOL ---
     { image: 'img/golBranco.png', title: 'Gol Branco — Conforto, economia e o design que você já confia.' },
@@ -84,7 +83,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.startTimer();
   }
 
-  // --- LÓGICA DE LOGIN ---
   onLoginSuccess() {
     this.showWelcomeCard = true;
   }

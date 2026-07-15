@@ -132,7 +132,6 @@ export class WelcomeComponent implements AfterViewInit {
     return dadosObrigatoriosPreenchidos && servicoSelecionado;
   }
 
-  // Tornamos a função assíncrona para aguardar a renderização do PDF com a logo
   async enviar() {
     if (!this.formValido) {
       alert('Por favor, preencha todos os campos obrigatórios e selecione ao menos um serviço.');
@@ -176,9 +175,6 @@ export class WelcomeComponent implements AfterViewInit {
     }
   }
 
-  /**
-   * Função auxiliar para pré-carregar a imagem local e transformá-la num elemento HTMLImage
-   */
   private carregarImagem(url: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -188,9 +184,6 @@ export class WelcomeComponent implements AfterViewInit {
     });
   }
 
-/**
-   * Gera o PDF de forma assíncrona garantindo proporções perfeitas para a logo
-   */
   private async gerarPDFOrdemServico(pedido: any, dataEmissao: Date) {
     const doc = new jsPDF({
       orientation: 'portrait',
@@ -204,31 +197,25 @@ export class WelcomeComponent implements AfterViewInit {
     const greenBorder = [22, 163, 74];    // #16a34a
     const greenBG = [240, 253, 244];      // #f0fdf4
 
-    // --- RENDERIZAÇÃO DA LOGO SEM DISTORÇÃO (Proportional Fit) ---
+    // --- RENDERIZAÇÃO DA LOGO ---
     try {
       const logoElement = await this.carregarImagem('/img/Logo.png');
       
       const imgWidth = logoElement.naturalWidth;
       const imgHeight = logoElement.naturalHeight;
 
-      // Definimos os limites máximos do espaço reservado para a logo no cabeçalho
       const maxWidth = 32; 
       const maxHeight = 14;
 
-      // 1. Começamos assumindo que vamos usar a largura máxima permitida
       let finalWidth = maxWidth;
       let finalHeight = (imgHeight * maxWidth) / imgWidth;
 
-      // 2. Se a altura proporcional passar do limite máximo, recalculamos com base na altura
       if (finalHeight > maxHeight) {
         finalHeight = maxHeight;
         finalWidth = (imgWidth * maxHeight) / imgHeight;
       }
       
-      // Centraliza um pouco verticalmente no espaço de 15mm se a logo for muito deitada
       const yOffset = 10 + (maxHeight - finalHeight) / 2;
-
-      // Desenha a logo preservando a proporção matemática original (sem distorção!)
       doc.addImage(logoElement, 'PNG', 15, yOffset, finalWidth, finalHeight);
 
     } catch (e) {
@@ -243,7 +230,7 @@ export class WelcomeComponent implements AfterViewInit {
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(14);
     doc.setTextColor(blueColor[0], blueColor[1], blueColor[2]);
-    doc.text('ORDEM DE SERVIÇO & CONSENTIMENTO', 200 - 15, 17, { align: 'right' });
+    doc.text('ORDEM DE SERVIÇO & TERMO DE CONSENTIMENTO', 200 - 15, 17, { align: 'right' });
     
     doc.setFont('Helvetica', 'normal');
     doc.setFontSize(9);
@@ -261,11 +248,24 @@ export class WelcomeComponent implements AfterViewInit {
     const col2X = 113;
     const cardsY = 32;
 
+    // PREPARAÇÃO: Quebra de texto automática para a observação
+    doc.setFont('Helvetica', 'normal');
+    doc.setFontSize(8.5); // Garante que a medição use a fonte exata
+    const obsTexto = pedido.observacao ? pedido.observacao : 'Nenhuma';
+    const maxWidthObs = colWidth - 32; // Limite de largura para não vazar a caixa
+    const linhasObs = doc.splitTextToSize(obsTexto, maxWidthObs);
+
+    // PREPARAÇÃO: Calcula a altura dinâmica dos cards baseada no número de linhas
+    const alturaBaseCard = 48;
+    // Cada linha nova ocupa cerca de 4 unidades de altura. A obs inicia em Y=42.
+    const alturaNecessaria = 42 + (linhasObs.length * 4) + 2;
+    const cardHeight = Math.max(alturaBaseCard, alturaNecessaria);
+
     // Caixa Esquerda: Condutor
     doc.setFillColor(lightGray[0], lightGray[1], lightGray[2]);
     doc.setDrawColor(226, 232, 240);
     doc.setLineWidth(0.3);
-    doc.roundedRect(col1X, cardsY, colWidth, 48, 2, 2, 'FD');
+    doc.roundedRect(col1X, cardsY, colWidth, cardHeight, 2, 2, 'FD'); // Usa cardHeight
 
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(9.5);
@@ -293,7 +293,7 @@ export class WelcomeComponent implements AfterViewInit {
 
     // Caixa Direita: Veículo
     doc.setFillColor(lightGray[0], lightGray[1], lightGray[2]);
-    doc.roundedRect(col2X, cardsY, colWidth, 48, 2, 2, 'FD');
+    doc.roundedRect(col2X, cardsY, colWidth, cardHeight, 2, 2, 'FD'); // Usa cardHeight
 
     doc.setFont('Helvetica', 'bold');
     doc.setTextColor(blueColor[0], blueColor[1], blueColor[2]);
@@ -315,15 +315,19 @@ export class WelcomeComponent implements AfterViewInit {
     doc.setFont('Helvetica', 'bold'); doc.text('Mecânico:', col2X + 4, cardsY + 35);
     doc.setFont('Helvetica', 'normal'); doc.text(pedido.mecanico.toUpperCase(), col2X + 28, cardsY + 35);
 
+    // Printa a observação com quebra de linha usando as linhas extraídas acima
     doc.setFont('Helvetica', 'bold'); doc.text('Obs:', col2X + 4, cardsY + 42);
-    const obsLimitado = pedido.observacao ? (pedido.observacao.substring(0, 35) + (pedido.observacao.length > 35 ? '...' : '')) : 'Nenhuma';
-    doc.setFont('Helvetica', 'normal'); doc.text(obsLimitado, col2X + 28, cardsY + 42);
+    doc.setFont('Helvetica', 'normal'); 
+    doc.text(linhasObs, col2X + 28, cardsY + 42);
 
     // --- SEÇÃO 2: LISTA DE SERVIÇOS ---
+    // A posição da tabela agora desce dinamicamente conforme a altura das caixas!
+    const sec2Y = cardsY + cardHeight + 10;
+    
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(10.5);
     doc.setTextColor(blueColor[0], blueColor[1], blueColor[2]);
-    doc.text('3. Serviços Solicitados', 15, 90);
+    doc.text('3. Serviços Solicitados', 15, sec2Y);
 
     const colunasTabela = ['Serviço', 'Tempo Estimado', 'Preço Unitário (R$)'];
     const linhasTabela = this.resumo().itensDetalhados.map(item => [
@@ -333,7 +337,7 @@ export class WelcomeComponent implements AfterViewInit {
     ]);
 
     autoTable(doc, {
-      startY: 94,
+      startY: sec2Y + 4,
       margin: { left: 15, right: 15 },
       head: [colunasTabela],
       body: linhasTabela,
@@ -365,7 +369,7 @@ export class WelcomeComponent implements AfterViewInit {
     doc.setFont('Helvetica', 'normal');
     doc.setFontSize(8.5);
     doc.setTextColor(darkGray[0], darkGray[1], darkGray[2]);
-    doc.text('Tempo Total + Setup:', 124, totalBoxY + 6);
+    doc.text('Tempo Total:', 124, totalBoxY + 6);
     doc.text('Subtotal:', 124, totalBoxY + 12);
     
     doc.setFont('Helvetica', 'bold');
@@ -378,7 +382,7 @@ export class WelcomeComponent implements AfterViewInit {
     doc.text('TOTAL GERAL:', 124, totalBoxY + 20);
     doc.text(`R$ ${pedido.valorTotal.toFixed(2).replace('.', ',')}`, 190, totalBoxY + 20, { align: 'right' });
 
-    // --- SEÇÃO 3: TERMO DE CONSENTIMENTO LGPD (LEI 13.709/2018) ---
+    // --- SEÇÃO 3: TERMO DE CONSENTIMENTO LGPD ---
     const lgpdY = totalBoxY + 28;
     doc.setFillColor(greenBG[0], greenBG[1], greenBG[2]);
     doc.setDrawColor(greenBorder[0], greenBorder[1], greenBorder[2]);
@@ -408,7 +412,6 @@ export class WelcomeComponent implements AfterViewInit {
     doc.setDrawColor(100, 116, 139);
     doc.setLineWidth(0.2);
 
-    // Assinatura do Cliente
     doc.line(15, signY, 90, signY);
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(8);
@@ -419,7 +422,6 @@ export class WelcomeComponent implements AfterViewInit {
     doc.text(`${pedido.nome} ${pedido.sobrenome}`, 52.5, signY + 8, { align: 'center' });
     doc.text(`Doc/CNH: ${pedido.cnh}`, 52.5, signY + 11, { align: 'center' });
 
-    // Assinatura da Concessionária/Oficina
     doc.line(110, signY, 185, signY);
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(8);

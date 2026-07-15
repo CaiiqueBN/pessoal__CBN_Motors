@@ -18,14 +18,14 @@ export interface Orcamento {
   valorTotal: number; data: Date;
 }
 
-// NOVA INTERFACE PARA O HISTÓRICO
+// Histórico
 export interface VeiculoLiberado {
   cor: string;
   cliente: string;
   telefone: string;
   placa: string;
   modelo: string;
-  valorGeral: number; // Valor do pedido + orçamentos extras
+  valorGeral: number;
   dataLiberacao: Date;
 }
 
@@ -33,7 +33,7 @@ export interface VeiculoLiberado {
 export class PedidoService {
   pedidos = signal<Pedido[]>([]);
   orcamentos = signal<Orcamento[]>([]);
-  veiculosLiberados = signal<VeiculoLiberado[]>([]); // NOVO SIGNAL PARA O HISTÓRICO
+  veiculosLiberados = signal<VeiculoLiberado[]>([]);
 
   adicionarPedido(pedido: Pedido) { this.pedidos.update(lista => [...lista, pedido]); }
   
@@ -54,7 +54,7 @@ export class PedidoService {
     });
   });
 
-  // NOVA FUNÇÃO QUE MOVE O PEDIDO PARA O HISTÓRICO
+  // Histórico de veículos liberados
   liberarVeiculo(placa: string) {
     const veiculo = this.gastoTotalPorCliente().find(v => v.placa === placa);
     if (veiculo) {

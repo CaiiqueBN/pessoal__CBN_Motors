@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { MenuComponent } from '../../components/menu/menu.component'; 
 import { PedidoService, Pedido, Orcamento } from '../../services/pedido.service';
 
-// Registra os dados de formatação do Brasil (pt-BR)
 registerLocaleData(localePt);
 
 interface ItemOrcamento {
@@ -49,7 +48,6 @@ export class OrcamentoComponent {
     return this.itensSelecionados().reduce((total, item) => total + (item.peca.preco * item.quantidade), 0);
   });
 
-  // Função para retornar a imagem do veículo dinamicamente
   obterImagemVeiculo(modelo?: string, cor?: string): string | null {
     if (modelo && cor) {
       const modeloFormatado = modelo.toLowerCase();

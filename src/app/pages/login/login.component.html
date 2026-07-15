@@ -1,11 +1,11 @@
+<title>CBN Motors | Login</title>
+
 <div class="scene">
-  <!-- Fundo / Ambiente -->
   <div class="beam beam1"></div>
   <div class="beam beam2"></div>
   <div class="gear-ring"></div>
   <div class="floor"></div>
 
-  <!-- Acento de Ferramenta -->
   <svg class="tool-accent" viewBox="0 0 100 100">
     <path d="M70 10 L60 20 L65 25 L75 15 A15 15 0 1 1 55 35 L20 70 A6 6 0 1 0 30 80 L65 45 A15 15 0 0 0 70 10 Z" fill="#3b8fd6" opacity="0.5"/>
   </svg>
@@ -15,36 +15,30 @@
     <!-- CARROSSEL -->
     <div class="carousel-wrapper">
       <div class="principal__home_slider">
-        <!-- Botão Voltar -->
+
         <button class="carousel-btn" (click)="prevSlide()">
           <i class="bi bi-chevron-left"></i>
         </button>
 
-        <!-- Container das Imagens -->
         <div class="carousel-container">
           <div class="carousel-track" [style.transform]="'translateX(-' + (currentIndex * 100) + '%)'">
             <img *ngFor="let item of carouselItems" [src]="item.image" [alt]="item.title">
           </div>
         </div>
 
-        <!-- Botão Avançar -->
         <button class="carousel-btn" (click)="nextSlide()">
           <i class="bi bi-chevron-right"></i>
         </button>
       </div>
-      <!-- Título do Carrossel -->
       <div id="carousel-title" [innerHTML]="carouselItems[currentIndex].title"></div>
     </div>
-
-    <!-- CARTÃO DE LOGIN -->
+    
+    <!-- LOGIN -->
     <div class="login-card">
-      
-      <!-- Logo CBN Motors -->
       <div class="logo-wrapper">
         <img src="img/Logo.png" alt="CBN Motors Logo" class="card-logo">
       </div>
       
-      <!-- Mensagem de Sucesso -->
       <div *ngIf="showWelcomeCard" class="text-center w-100 py-4 welcome-animation">
         <h1 class="mb-3 check-pop" style="color: var(--accent); font-size: 4rem;">
           <i class="bi bi-check-circle-fill"></i>
@@ -54,11 +48,9 @@
         <button class="btn-action w-100" (click)="onConfirmar()">OK</button>
       </div>
 
-      <!-- Formulário de Login Padrão -->
       <div *ngIf="!showWelcomeCard">
         <h1>Entrar</h1>
         <p class="sub">Acesse o painel da CBN Motors</p>
-        
         <app-login-form (loginSuccess)="onLoginSuccess()"></app-login-form>
       </div>
 

@@ -1,14 +1,12 @@
-/* Variáveis de cor inspiradas em montadoras/oficinas modernas */
 .text-custom-primary {
-  color: #003478 !important; /* Azul escuro corporativo */
+  color: #003478 !important;
   font-weight: 700;
 }
 
 .bg-light-blue {
-  background-color: #f4f7fb !important; /* Fundo suave para destaque */
+  background-color: #f4f7fb !important;
 }
 
-/* Estilo geral dos cards */
 .form-card {
   border-radius: 16px !important;
   transition: transform 0.2s ease-in-out;
@@ -18,7 +16,6 @@
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
 }
 
-/* Inputs personalizados */
 .form-control-custom {
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
@@ -36,7 +33,6 @@
   outline: none;
 }
 
-/* Container de pré-visualização da imagem */
 .veiculo-preview {
   background-color: #ffffff;
   border: 2px dashed #dee2e6;
@@ -45,7 +41,6 @@
   transition: all 0.3s;
 }
 
-/* Grid de seleção de serviços */
 .grid-itens {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
@@ -82,7 +77,6 @@
   transform: translateY(-2px);
 }
 
-/* Caixa de resumo dos preços */
 .resumo-box {
   background-color: #ffffff;
   border-radius: 10px;
@@ -90,7 +84,6 @@
   border: 1px solid #e9ecef;
 }
 
-/* Botão principal de enviar */
 .btn-enviar {
   background-color: #003478;
   color: #ffffff;

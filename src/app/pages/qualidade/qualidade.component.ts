@@ -6,7 +6,6 @@ import { PedidoService } from '../../services/pedido.service';
 import { MenuComponent } from "../../components/menu/menu.component";
 import { Router } from '@angular/router';
 
-// Registra os dados de formatação do Brasil (pt-BR)
 registerLocaleData(localePt);
 
 @Component({
@@ -34,7 +33,6 @@ logout() {
     return totalAtivos + totalLiberados;
   });
 
-  // Função para retornar a imagem do veículo dinamicamente
   obterImagemVeiculo(modelo?: string, cor?: string): string | null {
     if (modelo && cor) {
       const modeloFormatado = modelo.toLowerCase();
@@ -50,6 +48,6 @@ logout() {
 
   liberarVeiculo(item: any) {
     this.pedidoService.liberarVeiculo(item.placa);
-    alert(`VEÍCULO LIBERADO COM SUCESSO!\n\nUma mensagem foi enviada para o cliente ${item.nome} no contato (${item.telefone}) informando que o veículo de placa ${item.placa} já está pronto para retirada.`);
+    alert(`Veículo liberado com sucesso!\n\nUma mensagem foi enviada para o cliente ${item.nome} no contato (${item.telefone}) informando que o veículo de placa ${item.placa} já está pronto para retirada.`);
   }
 }
